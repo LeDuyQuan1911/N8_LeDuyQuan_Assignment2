@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 
 # Định nghĩa fixture để tạo và hủy driver cho mỗi test
 @pytest.fixture
@@ -13,6 +14,15 @@ def driver():
     driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 def login(driver):
     driver.get("https://demo.opencart.com/index.php?route=account/login")     # Truy cập vào trang đăng nhập của OpenCart

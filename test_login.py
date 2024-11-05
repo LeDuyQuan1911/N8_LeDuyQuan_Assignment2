@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import pytest
 import logging  
+from selenium.webdriver.firefox.options import Options
 
 logging.basicConfig(level=logging.ERROR) 
 
@@ -21,6 +22,15 @@ def driver():
     driver = webdriver.Chrome()  
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 def test_login_and_logout(driver): # Kiểm tra đăng nhập và đăng xuất
     driver.get("https://demo.opencart.com/en-gb?route=common/home") #Mỏ trang chính OpenCart

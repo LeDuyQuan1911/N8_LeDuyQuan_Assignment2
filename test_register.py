@@ -11,6 +11,7 @@ from selenium.common.exceptions import TimeoutException  # Importing TimeoutExce
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import logging  
+from selenium.webdriver.firefox.options import Options
 
 import pytest
 logging.basicConfig(level=logging.ERROR)  # Thiết lập logging để ghi lại các lỗi và ngoại lệ trong quá trình kiểm thử
@@ -21,6 +22,15 @@ def driver():
     driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 # PASS
 def test_register_valid_data(driver): # Hàm kiểm thử: Kiểm tra đăng ký với dữ liệu hợp lệ

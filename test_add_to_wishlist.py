@@ -5,6 +5,7 @@ from selenium.common.exceptions import TimeoutException
 import time
 from selenium import webdriver
 import pytest
+from selenium.webdriver.firefox.options import Options
 
 
 @pytest.fixture
@@ -12,6 +13,15 @@ def driver():
     driver = webdriver.Chrome()  
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 def test_add_to_wishlist_noLogin(driver): #Thêm sản phẩm vào mục yêu thích
     driver.get("https://demo.opencart.com/en-gb/product/iphone") #Mở trang sản phẩm

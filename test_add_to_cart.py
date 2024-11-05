@@ -11,6 +11,7 @@ from selenium.common.exceptions import TimeoutException, ElementClickIntercepted
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.firefox.options import Options
 
 import pytest
 
@@ -19,6 +20,15 @@ def driver():
     driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 def test_add_to_cart(driver):
     # Mở trang chính của OpenCart

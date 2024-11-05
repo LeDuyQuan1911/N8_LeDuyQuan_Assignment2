@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 import pytest
 import time
+from selenium.webdriver.firefox.options import Options
 
 
 @pytest.fixture
@@ -11,6 +12,15 @@ def driver():
     driver = webdriver.Chrome()  
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 #Bug - Fail
 def test_writeReview(driver): #Hàm kiểm tra viết Reivew

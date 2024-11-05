@@ -10,6 +10,7 @@ import time
 from selenium.common.exceptions import TimeoutException  # Importing TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 import pytest
 
 @pytest.fixture
@@ -17,6 +18,16 @@ def driver():
     driver = webdriver.Chrome()  
     yield driver
     driver.quit()
+
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 #Pass
 def test_correct_search_products(driver): #Hàm kiểm tra khi nhập đúng dữ liệu

@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import pytest
+from selenium.webdriver.firefox.options import Options
 
 # Định nghĩa hàm fixture `driver` để khởi tạo và tắt trình duyệt Chrome
 @pytest.fixture
@@ -19,6 +20,15 @@ def driver():
     driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
+# @pytest.fixture
+# def driver():
+#     options = Options()
+#     options.add_argument("--start-maximized")
+
+#     driver = webdriver.Firefox(options=options)
+#     yield driver
+#     driver.quit()
 
 
 def test_checkout_with_guest_account(driver): # Hàm kiểm thử cho phép đặt hàng với tài khoản khách
