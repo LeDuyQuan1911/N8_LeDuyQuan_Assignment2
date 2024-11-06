@@ -13,18 +13,9 @@ def driver():
     yield driver
     driver.quit()
 
-# @pytest.fixture
-# def driver():
-#     options = Options()
-#     options.add_argument("--start-maximized")
-
-#     driver = webdriver.Firefox(options=options)
-#     yield driver
-#     driver.quit()
-
 # Hàm kiểm thử responsive design cho trang web
 def test_responsive_design(driver):
-    driver.get("https://demo.opencart.com/en-gb?route=common/home") # Mở trang chủ của trang web OpenCart demo
+    driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb") # Mở trang chủ của trang web OpenCart demo
 
     # Định nghĩa các kích thước viewport cho Desktop, Tablet và Mobile
     viewports = {
@@ -40,7 +31,7 @@ def test_responsive_design(driver):
         driver.refresh()  # Làm mới trang để áp dụng kích thước mới
 
         # Chờ cho phần tử 'body' của trang web xuất hiện, với thời gian chờ tối đa là 10 giây
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 2).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "body"))
         )
 

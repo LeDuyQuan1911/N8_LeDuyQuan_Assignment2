@@ -14,19 +14,10 @@ def driver():
     yield driver
     driver.quit()
 
-# @pytest.fixture
-# def driver():
-#     options = Options()
-#     options.add_argument("--start-maximized")
-
-#     driver = webdriver.Firefox(options=options)
-#     yield driver
-#     driver.quit()
-
 def test_add_to_wishlist_noLogin(driver): #Thêm sản phẩm vào mục yêu thích
-    driver.get("https://demo.opencart.com/en-gb/product/iphone") #Mở trang sản phẩm
+    driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb") #Mở trang sản phẩm
     
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 2)
     try:
         wish_list_button = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, "button[aria-label='Add to Wish List']") #Click vào nút Add to wishlist
@@ -58,9 +49,9 @@ def test_add_to_wishlist_noLogin(driver): #Thêm sản phẩm vào mục yêu th
 
 def test_add_to_wishlist_Login(driver): #Thêm sản phẩm vào mục yêu thích
     login(driver) #Đăng nhập vào
-    driver.get("https://demo.opencart.com/en-gb/product/iphone") #Mở trang sản phẩm
+    driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=40&search=iphone") #Mở trang sản phẩm
     
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 2)
     try:
         wish_list_button = wait.until(EC.element_to_be_clickable(
             (By.CSS_SELECTOR, "button[aria-label='Add to Wish List']") #Click vào nút Add to wishlist
@@ -91,17 +82,17 @@ def test_add_to_wishlist_Login(driver): #Thêm sản phẩm vào mục yêu thí
 
 
 def login(driver): #Đăng nhập vào sản phẩm
-    driver.get("https://demo.opencart.com/index.php?route=account/login") #Truy cập vào trang sản phẩm
+    driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Truy cập vào trang sản phẩm
 
-    wait = WebDriverWait(driver, 10) 
+    wait = WebDriverWait(driver, 2) 
 
     email_field = wait.until(EC.visibility_of_element_located((By.ID, "input-email"))) #Nhập vào field email
-    email_field.send_keys("leduyquan2574@gmail.com")
+    email_field.send_keys("nttn1234@gmail.com")
 
     password_field = wait.until(EC.visibility_of_element_located((By.ID, "input-password"))) #Nhập vào field password
-    password_field.send_keys("Quan19112003")
+    password_field.send_keys("1234")
 
-    time.sleep(10) 
+    time.sleep(2) 
 
     login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.btn-primary"))) #Click vào nút "Login"
     login_button.click()

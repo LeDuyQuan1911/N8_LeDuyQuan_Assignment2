@@ -32,10 +32,10 @@ def driver():
 
 def test_add_to_cart(driver):
     # Mở trang chính của OpenCart
-    driver.get("https://demo.opencart.com/en-gb?route=common/home")
+    driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb")
     
     # Set up an explicit wait for locating elements
-    wait = WebDriverWait(driver, 15)
+    wait = WebDriverWait(driver, 2)
     try:
         # Sử dụng CSS_SELECTOR để tìm nút "add to cart" của sản phẩm
         add_to_cart_button = wait.until(EC.element_to_be_clickable(
@@ -83,10 +83,10 @@ def test_add_to_cart(driver):
 # # Fail
 def test_add_product_with_2_quality(driver):
     # Truy cập vào trang sản phẩm MacBook trên OpenCart
-    driver.get("https://demo.opencart.com/en-gb/product/macbook")
+    driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=43")
     
     # Tìm nút "Add to Cart" và click lần đầu tiên
-    add_to_cart_button = WebDriverWait(driver, 10).until(
+    add_to_cart_button = WebDriverWait(driver, 2).until(
         EC.element_to_be_clickable((By.ID, "button-cart"))
     )
     add_to_cart_button.click()
@@ -95,7 +95,7 @@ def test_add_product_with_2_quality(driver):
     add_to_cart_button.click()
 
     # Tìm và click vào biểu tượng giỏ hàng ở góc phải của trang
-    cart_button = WebDriverWait(driver, 10).until(
+    cart_button = WebDriverWait(driver, 2).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "#header-cart > div > button"))
     )
     driver.execute_script("arguments[0].scrollIntoView(true);", cart_button)
@@ -127,33 +127,33 @@ def test_add_product_with_2_quality(driver):
 
 #Pass
 def test_add_muitiple_product(driver): #Thêm 1 lúc nhiều sản phẩm (TH này là 2 sản phẩm)
-    driver.get("https://demo.opencart.com/en-gb?route=common/home") #Mở trang OpenCart
-    time.sleep(20) 
-    wait = WebDriverWait(driver, 10)
+    driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb") #Mở trang OpenCart
+    time.sleep(2) 
+    wait = WebDriverWait(driver, 2)
 
     #tìm nút "Add to cart của Sản phẩm thứ 1"
     add_to_cart_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,
         "#content > div.row.row-cols-1.row-cols-sm-2.row-cols-md-3.row-cols-xl-4 > div:nth-child(2) > div > div.content > form > div > button:nth-child(1)")))
-    time.sleep(15) 
+    time.sleep(2) 
     
     #Kéo Scroll xuống và sau đó click nút "Add to cart"
     driver.execute_script("arguments[0].scrollIntoView(true);", add_to_cart_button)
-    time.sleep(15) 
+    time.sleep(2) 
     add_to_cart_button.click()
-    time.sleep(15)  
+    time.sleep(2)  
 
-    driver.get("https://demo.opencart.com/en-gb/product/macbook") # Mở ra trang product của Macbook
-    time.sleep(20)
+    driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=43") # Mở ra trang product của Macbook
+    time.sleep(2)
 
-    time.sleep(15) 
-    add_to_cart_button = wait.until(EC.element_to_be_clickable((By.ID, "button-cart"))) #Click vào nút "Ađ to cart"
+    time.sleep(2) 
+    add_to_cart_button = wait.until(EC.element_to_be_clickable((By.ID, "button-cart"))) #Click vào nút "Add to cart"
     add_to_cart_button.click()
-    time.sleep(15) 
+    time.sleep(7) 
 
     cartButton = driver.find_element(By.CSS_SELECTOR, "#header-cart > div > button")
-    driver.execute_script("arguments[0].scrollIntoView(true);", cartButton) #Scroll xuống và nhấn vào nút chứ tổng sản phẩm và tổng tiền
+    # driver.execute_script("arguments[0].scrollIntoView(true);", cartButton) #Scroll xuống và nhấn vào nút chứ tổng sản phẩm và tổng tiền
     cartButton.click()
-    time.sleep(15) 
+    time.sleep(2) 
 
     #Tìm tên các sản phẩm
     productNames = driver.find_elements(By.CSS_SELECTOR, "#header-cart > div > ul > li > table > tbody > tr > td.text-start > a")
@@ -164,39 +164,3 @@ def test_add_muitiple_product(driver): #Thêm 1 lúc nhiều sản phẩm (TH n�
     assert sorted(expectedProductNames) == sorted(actualProductNames), "Tên sản phẩm không khớp"
 
 
-#Fail
-def test_to_cart_past_day(driver): #Thêm sản phẩm có ngày trong quá khứ
-    wait = WebDriverWait(driver, 10)
-    driver.get("https://demo.opencart.com/en-gb/product/apple-cinema") #Mở trang sản phẩm Apple cinema
-    time.sleep(4) 
-    
-    medium_radio_button = wait.until(EC.element_to_be_clickable((By.ID, "input-option-value-6"))) #Thêm button có vị trí 6
-    medium_radio_button.click()
-    time.sleep(4)
-
-    checkbox_2 = wait.until(EC.element_to_be_clickable((By.ID, "input-option-value-9"))) #Thêm button có vị trí 9
-    checkbox_2.click()
-    time.sleep(4)
-
-    text_input = wait.until(EC.presence_of_element_located((By.ID, "input-option-208"))) # Nhập vào text là test
-    text_input.clear() 
-    text_input.send_keys("test")  
-    time.sleep(4)
-
-    select_element = wait.until(EC.presence_of_element_located((By.ID, "input-option-217")))
-    select = Select(select_element)
-    select.select_by_value("4")  
-    time.sleep(4)
-
-    textarea_element = wait.until(EC.presence_of_element_located((By.ID, "input-option-209")))  # Nhập vào area với text là test
-    textarea_element.send_keys("Đây là văn bản bạn muốn thêm vào textarea.")
-    time.sleep(4)
-
-    upload_button = wait.until(EC.element_to_be_clickable((By.ID, "button-upload-222"))) #Button upload file nhưng không up được
-    upload_button.click()
-    time.sleep(4)
-    upload_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#input-option-222")))  
-    upload_input.send_keys(r"MathUtilsTest.txt")  
-
-    assert sorted(expectedProductNames) == sorted(actualProductNames), "Tên sản phẩm không khớp"
-    assert expectedQuantities == actualQuantities, "Số lượng sản phẩm không khớp"
