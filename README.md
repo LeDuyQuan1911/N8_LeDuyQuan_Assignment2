@@ -1,7 +1,7 @@
 
 # Kiểm thử Tự động với Selenium và Pytest
 
-Dự án này chứa các trường hợp kiểm thử tự động sử dụng **Selenium WebDriver** và **Pytest** để xác minh chức năng sắp xếp trên trang web [Open Cart](https://demo.opencart.com/en-gb?route=common/home).
+Dự án này chứa các trường hợp kiểm thử tự động sử dụng **Selenium WebDriver** và **Pytest** để xác minh chức năng sắp xếp trên trang web [Open Cart](http://localhost/webopencart/index.php?route=common/home&language=en-gb).
 
 ## Mục lục
 - [Yêu cầu](#yêu-cầu)
@@ -58,8 +58,8 @@ Nếu bạn đang sử dụng **Chrome**:
 - Thay thế `webdriver.Edge()` bằng `webdriver.Chrome()` trong mã, và tải xuống **ChromeDriver** thay thế.
 
 ### 4. Cấu hình Môi trường Kiểm thử
-1. Đảm bảo rằng kết nối internet ổn định, vì các bài kiểm thử sẽ tương tác với trang web trực tuyến [Open Cart](https://demo.opencart.com/en-gb?route=common/home).
-2. Xác nhận rằng thông tin đăng nhập được sử dụng (`leduyquan2574@gmail.com` và `Quan19112003`) có thể truy cập được trên trang thử nghiệm.
+1. Đảm bảo rằng kết nối internet ổn định, vì các bài kiểm thử sẽ tương tác với trang web trực tuyến [Open Cart](http://localhost/webopencart/index.php?route=common/home&language=en-gb).
+2. Xác nhận rằng thông tin đăng nhập được sử dụng (`nttn1234@gmail.com` và `1234`) có thể truy cập được trên trang thử nghiệm.
 
 ---
 
@@ -82,7 +82,3 @@ pytest --html=report.html
 ```
 
 Sau khi lệnh này được thực thi thành công, một tệp mới có tên `report.html` sẽ được tạo trong thư mục dự án.
-
-# B8_LeDuyQuan_Assignment2
-# N8_Assignment2_LeDuyQuan
-# N8_LeDuyQuan_Assignment2

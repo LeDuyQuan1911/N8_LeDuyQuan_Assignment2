@@ -19,16 +19,6 @@ def driver():
     yield driver
     driver.quit()
 
-
-# @pytest.fixture
-# def driver():
-#     options = Options()
-#     options.add_argument("--start-maximized")
-
-#     driver = webdriver.Firefox(options=options)
-#     yield driver
-#     driver.quit()
-
 #Pass
 def test_correct_search_products(driver): #Hàm kiểm tra khi nhập đúng dữ liệu
         existent_keyword = "Iphone"  
@@ -37,14 +27,14 @@ def test_correct_search_products(driver): #Hàm kiểm tra khi nhập đúng d�
         assert len(results) > 0, "No products found for 'Iphone'"
 
 #Pass
-def test_search_with_noExistProducts(driver): #Nhập dữ liệu tìm kiếm với sản phẩm không tồn tại
+def test_search_with_no_exist_products(driver): #Nhập dữ liệu tìm kiếm với sản phẩm không tồn tại
         nonexistent_keyword = "noExistProducts"  
         results = search_products(driver, nonexistent_keyword)
         time.sleep(2)  
         assert len(results) == 0, f"Expected no products for '{nonexistent_keyword}', but found some."
 
 #Pass
-def test_search_with_uppercaseAllText(driver): #Nhập dữ liệu với kí tự Hoa
+def test_search_with_uppercase_all_text(driver): #Nhập dữ liệu với kí tự Hoa
         uppercase_keyword = "IPHONE"  
         results = search_products(driver, uppercase_keyword)
         time.sleep(2)  
@@ -52,7 +42,7 @@ def test_search_with_uppercaseAllText(driver): #Nhập dữ liệu với kí t�
         print(f"Test for uppercase keyword '{uppercase_keyword}' passed. Products found: {len(results)}.")
 
 #Pass
-def test_search_with_lowercaseAllText(driver): #Nhập dữ liệu với kí tự thường
+def test_search_with_lowercase_all_text(driver): #Nhập dữ liệu với kí tự thường
         lowercase_keyword = "iphone"  
         results = search_products(driver, lowercase_keyword)
         time.sleep(2)  
@@ -69,7 +59,7 @@ def test_search_special_characters(driver): #Nhập vào với kí tự đặc b
         print("Test for special character search passed. No products found.")
         
 #Pass
-def test_search_with_Whitespace_surrounded(driver): #Nhập vào dữ liệu với kí tự trắng xung quanh
+def test_search_with_whitespace_surrounded(driver): #Nhập vào dữ liệu với kí tự trắng xung quanh
         keyword_with_whitespace = "  Iphone  "  
         results = search_products(driver, keyword_with_whitespace)
         time.sleep(2)  
@@ -87,7 +77,7 @@ def test_search_empty_characters(driver): #Tìm kiếm với dữ liệu trống
         print("Test for empty search characters passed. No products found.")
         
 #Pass
-def test_search_with_specialCharacterInText(driver): #Nhập diệu liệu với kí tự đặc biệt trong tên sản phẩm
+def test_search_with_special_character_in_text(driver): #Nhập diệu liệu với kí tự đặc biệt trong tên sản phẩm
         special_characters_keyword = "!Iphone" 
         results = search_products(driver, special_characters_keyword)
         time.sleep(2)  
@@ -97,7 +87,7 @@ def test_search_with_specialCharacterInText(driver): #Nhập diệu liệu với
 
 
 #Fail
-def test_search_with_longCharacterInText(driver): #Nhập diệu liệu với số lượng chữ nhiều
+def test_search_with_long_character_in_text(driver): #Nhập diệu liệu với số lượng chữ nhiều
     special_characters_keyword = "................................................................................."
     results = search_products(driver, special_characters_keyword)
 

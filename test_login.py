@@ -23,7 +23,7 @@ def driver():
     yield driver
     driver.quit()
 
-def test_login_and_logout(driver): # Kiểm tra đăng nhập và đăng xuất
+def test_login(driver): # Kiểm tra đăng nhập và đăng xuất
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mỏ trang chính OpenCart
     time.sleep(2)  
 
@@ -47,7 +47,7 @@ def test_login_and_logout(driver): # Kiểm tra đăng nhập và đăng xuất
         EC.presence_of_element_located((By.ID, "input-email"))
     ).send_keys("nttn1234@gmail.com")
     driver.find_element(By.ID, "input-password").send_keys("1234")
-    driver.find_element(By.CSS_SELECTOR, "input[type='submit']").click()
+    driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary").click()
 
     # Kiểm tra chuyển hướng đến trang tài khoản sau khi đăng nhập thành công
     WebDriverWait(driver, 2).until(
@@ -72,19 +72,13 @@ def test_login_and_logout(driver): # Kiểm tra đăng nhập và đăng xuất
     driver.execute_script("arguments[0].click();", logout_link) #Click nút Logout
 
     #Kiểm tra Logout thành công hay không
-    WebDriverWait(driver, 2).until(
-        EC.url_contains("account/logout")
-    )
-    assert "account/logout" in driver.current_url, "Logout was not successful."
-
-    WebDriverWait(driver, 2).until(
-        EC.url_contains("common/home")
-    )
-    assert "common/home" in driver.current_url, "User was not redirected to the homepage after logout."
-    
+    notification = driver.find_element(By.CSS_SELECTOR, "#content > h1")  # Xác định vị trí của thông báo
+    notificationActual = notification.text  # Lấy text của thông báo xuất ra
+    notificationExpected = "Account Logout"  # Text trông chờ
+    assert notificationExpected == notificationActual, "Order was not placed successfully"  # Kiểm tra kết quả có đúng như thông báo không
 
 # PASS 
-def test_wrong_email_login(driver): # Kiểm tra đăng nhập với email sai định dạng
+def test_invalid_email_login(driver): # Kiểm tra đăng nhập với email sai định dạng
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở Trang login 
     time.sleep(2) 
 
@@ -116,7 +110,7 @@ def test_wrong_email_login(driver): # Kiểm tra đăng nhập với email sai �
 
 
 # PASS
-def test_invalid_wrong_login(driver): # Kiểm tra đăng nhập với passowrd sai
+def test_invalid_password_login(driver): # Kiểm tra đăng nhập với passowrd sai
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở trang Login
 
     # Nhập email sai định dạng và mật khẩu, sau đó nhấn đăng nhập
@@ -229,7 +223,7 @@ def test_empty_email_login(driver): # Kiểm tra đăng nhập khi trường ema
 
 
 # # PASS
-def test_special_character_email_login(driver): # Kiểm tra đăng nhập với email chứa ký tự đặc biệt
+def test_email_have_special_character_login(driver): # Kiểm tra đăng nhập với email chứa ký tự đặc biệt
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở ra trang login
 
     # Nhập email với ký tự đặc biệt và mật khẩu hợp lệ
@@ -263,7 +257,7 @@ def test_special_character_email_login(driver): # Kiểm tra đăng nhập với
 
 
 # # PASS
-def test_special_character_password_login(driver): # Kiểm tra đăng nhập với mật khẩu chứa ký tự đặc biệt
+def test_password_have_special_character_login(driver): # Kiểm tra đăng nhập với mật khẩu chứa ký tự đặc biệt
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở ra trang login
 
     # Nhập email hợp lệ và mật khẩu với ký tự đặc biệt
@@ -286,7 +280,7 @@ def test_special_character_password_login(driver): # Kiểm tra đăng nhập v�
             EC.visibility_of_element_located((By.CLASS_NAME, "alert-danger"))
         )
 
-        # Assert that the error message is displayed and check its text
+        # Thông báo lỗi đã được hiển thị và kiểm tra lỗi đó
         assert error_message.is_displayed(), "Error message is not displayed."
         assert "Warning: No match for E-Mail Address and/or Password." in error_message.text.strip(), \
             "Unexpected error message content."
@@ -296,11 +290,11 @@ def test_special_character_password_login(driver): # Kiểm tra đăng nhập v�
         print("Current page source:", driver.page_source)
 
 # PASS
-def test_special_character_passwordAndEmail_login(driver): # Kiểm tra đăng nhập với cả email và mật khẩu đều chứa ký tự đặc biệt
+def test_emailAndPassword_have_special_character_login(driver): # Kiểm tra đăng nhập với cả email và mật khẩu đều chứa ký tự đặc biệt
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở ra trang login
 
      # Nhập cả email và mật khẩu với ký tự đặc biệt
-    email_field = WebDriverWait(driver, 2).until( #Nhấn vào kí tự ddwwjt biệt ở email
+    email_field = WebDriverWait(driver, 2).until( #Nhấn vào kí tự đặc biệt ở email
         EC.element_to_be_clickable((By.ID, "input-email"))
     )
     email_field.send_keys("!@#$%^&*()") 
@@ -319,7 +313,7 @@ def test_special_character_passwordAndEmail_login(driver): # Kiểm tra đăng n
             EC.visibility_of_element_located((By.CLASS_NAME, "alert-danger"))
         )
 
-        # Assert that the error message is displayed and check its text
+        # Thông báo lỗi đã được hiển thị và kiểm tra lỗi đó
         assert error_message.is_displayed(), "Error message is not displayed."
         assert "Warning: No match for E-Mail Address and/or Password." in error_message.text.strip(), \
             "Unexpected error message content."
@@ -331,7 +325,7 @@ def test_special_character_passwordAndEmail_login(driver): # Kiểm tra đăng n
 
 
 # # PASS
-def test_sql_invalid_to_login(driver): # Kiểm tra đăng nhập với tấn công SQL injection
+def test_sql_correct_statement_to_login(driver): # Kiểm tra đăng nhập với tấn công SQL injection
     driver.get("http://localhost/webopencart/index.php?route=account/login&language=en-gb") #Mở ra trang Login
 
     # Nhập câu lệnh SQL vào trường email và mật khẩu

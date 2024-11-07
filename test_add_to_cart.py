@@ -21,15 +21,7 @@ def driver():
     yield driver
     driver.quit()
 
-# @pytest.fixture
-# def driver():
-#     options = Options()
-#     options.add_argument("--start-maximized")
-
-#     driver = webdriver.Firefox(options=options)
-#     yield driver
-#     driver.quit()
-
+# Pass
 def test_add_to_cart(driver):
     # Mở trang chính của OpenCart
     driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb")
@@ -78,28 +70,28 @@ def test_add_to_cart(driver):
         except TimeoutException:
             print("Action failed: 'Add to Cart' button still not found after retrying.")
 
-
-
-# # Fail
-def test_add_product_with_2_quality(driver):
+# Pass
+def test_add_to_cart_with_product_2quantity(driver):
     # Truy cập vào trang sản phẩm MacBook trên OpenCart
     driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=43")
-    
+    time.sleep(2)
     # Tìm nút "Add to Cart" và click lần đầu tiên
     add_to_cart_button = WebDriverWait(driver, 2).until(
         EC.element_to_be_clickable((By.ID, "button-cart"))
     )
     add_to_cart_button.click()
+    time.sleep(2)
     
     # Click lần thứ hai để thêm cùng sản phẩm vào giỏ hàng lần nữa
     add_to_cart_button.click()
-
+    time.sleep(5)
     # Tìm và click vào biểu tượng giỏ hàng ở góc phải của trang
     cart_button = WebDriverWait(driver, 2).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "#header-cart > div > button"))
     )
     driver.execute_script("arguments[0].scrollIntoView(true);", cart_button)
     cart_button.click()
+    time.sleep(5)
     
     # Lấy tên sản phẩm từ giỏ hàng
     product_names = driver.find_elements(By.CSS_SELECTOR, "#header-cart > div > ul > li > table > tbody > tr > td.text-start > a")
@@ -107,7 +99,7 @@ def test_add_product_with_2_quality(driver):
     print("Tên sản phẩm thực tế:", actual_product_names)
 
     # Lấy số lượng sản phẩm từ giỏ hàng
-    product_quantities = driver.find_elements(By.CSS_SELECTOR, "#header-cart > div > ul > li > table > tbody > tr > td:nth-child(1)")
+    product_quantities = driver.find_elements(By.CSS_SELECTOR, "#header-cart .dropdown-menu .table-striped tbody tr td.text-end:nth-child(3)")
     actual_quantities = []
 
     for quantity in product_quantities:
@@ -126,7 +118,7 @@ def test_add_product_with_2_quality(driver):
     assert expected_quantities == actual_quantities, "Số lượng sản phẩm không khớp"
 
 #Pass
-def test_add_muitiple_product(driver): #Thêm 1 lúc nhiều sản phẩm (TH này là 2 sản phẩm)
+def test_add_to_cart_multiple_products(driver): #Thêm 1 lúc nhiều sản phẩm (TH này là 2 sản phẩm)
     driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb") #Mở trang OpenCart
     time.sleep(2) 
     wait = WebDriverWait(driver, 2)

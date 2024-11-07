@@ -14,7 +14,7 @@ def driver():
     yield driver
     driver.quit()
 
-def test_add_to_wishlist_noLogin(driver): #Thêm sản phẩm vào mục yêu thích
+def test_no_login_to_add_wishlist(driver): #Thêm sản phẩm vào mục yêu thích
     driver.get("http://localhost/webopencart/index.php?route=common/home&language=en-gb") #Mở trang sản phẩm
     
     wait = WebDriverWait(driver, 2)
@@ -47,7 +47,7 @@ def test_add_to_wishlist_noLogin(driver): #Thêm sản phẩm vào mục yêu th
             print("Action failed: Element still not found after retrying.")
 
 
-def test_add_to_wishlist_Login(driver): #Thêm sản phẩm vào mục yêu thích
+def test_login_to_add_wishlist(driver): #Thêm sản phẩm vào mục yêu thích
     login(driver) #Đăng nhập vào
     driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=40&search=iphone") #Mở trang sản phẩm
     

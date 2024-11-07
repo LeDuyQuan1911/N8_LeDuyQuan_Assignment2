@@ -23,7 +23,7 @@ def driver():
     yield driver
     driver.quit()
 
-# PASS
+# # PASS
 # def test_register_valid_data(driver): # Hàm kiểm thử: Kiểm tra đăng ký với dữ liệu hợp lệ
 #     driver.get("http://localhost/webopencart/index.php?route=account/register&language=en-gb") # Mở trang đăng ký
 #     time.sleep(2)  
@@ -159,7 +159,7 @@ def driver():
 
 
 # # PASS
-# def test_register_ExistAccount(driver): #Kiểm tra đăng ký tài khoản đã tồn tại
+# def test_register_exist_account(driver): #Kiểm tra đăng ký tài khoản đã tồn tại
 #     driver.get("http://localhost/webopencart/index.php?route=account/register&language=en-gb") #Mở ra trang đăng ký của OpenCart
 #     time.sleep(2)  
 
@@ -205,7 +205,7 @@ def driver():
 
 
 # # Pass
-# def test_noClickPolicy(driver): #Kiểm tra không check chính sách bảo mật
+# def test_no_click_policy(driver): #Kiểm tra không check chính sách bảo mật
 #     driver.get("http://localhost/webopencart/index.php?route=account/register&language=en-gb") #Mở ra trang đăng ký của OpenCart
 #     time.sleep(2)  
 
@@ -251,42 +251,56 @@ def driver():
 #         print("Current page source:", driver.page_source)
 
 # Pass
-def test_register_special_characters_in_name(driver): #Kiểm ra khi nhập kí tự đặc biệt vào tên
+def test_register_special_characters_in_name(driver):
+    # Mở trang đăng ký
     driver.get("http://localhost/webopencart/index.php?route=account/register&language=en-gb")
-    time.sleep(2)  
+    time.sleep(2)
 
-    first_name_field = WebDriverWait(driver, 2).until( #Tìm kiếm và nhập vào trường FirstName bằng kí tự đặc biệt
+    # Nhập vào trường FirstName bằng kí tự đặc biệt
+    first_name_field = WebDriverWait(driver, 2).until(
         EC.presence_of_element_located((By.ID, "input-firstname"))
     )
-    first_name_field.send_keys("Nguyễn Thị Thảo!!!")
+    first_name_field.send_keys("!!!!!!!!!")
 
-    last_name_field = WebDriverWait(driver, 2).until( #Tìm kiếm và nhập vào trường Lastname bằng kí tự đặc biệt
+    # Nhập vào trường LastName bằng kí tự đặc biệt
+    last_name_field = WebDriverWait(driver, 2).until(
         EC.presence_of_element_located((By.ID, "input-lastname"))
     )
-    last_name_field.send_keys("Nguyên")
+    last_name_field.send_keys("!!!!!!!!!")
 
-    email_field = WebDriverWait(driver, 2).until( #Tìm kiếm và nhập vào trường email
+    # Nhập vào trường email
+    email_field = WebDriverWait(driver, 2).until(
         EC.presence_of_element_located((By.ID, "input-email"))
     )
     email_field.send_keys("nttn13444!!!123@gmail.com")
 
-    password_field = WebDriverWait(driver, 2).until( #Tìm kiếm và nhập vào trường Password
+    # Nhập vào trường Password
+    password_field = WebDriverWait(driver, 2).until(
         EC.presence_of_element_located((By.ID, "input-password"))
     )
     password_field.send_keys("1234")
 
+    # Cuộn xuống và tích vào ô điều khoản
     driver.execute_script("arguments[0].scrollIntoView(true);", driver.find_element(By.NAME, "agree"))
-    time.sleep(2)
-
-    #Click vào nút policy và Click nút "Continue"
+    time.sleep(1)
     privacy_policy_checkbox = driver.find_element(By.NAME, "agree")
     driver.execute_script("arguments[0].click();", privacy_policy_checkbox)
-    time.sleep(2)
+    time.sleep(1)
 
+    # Nhấn nút "Continue"
     continue_button = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary")
     continue_button.click()
-    time.sleep(2) 
+    time.sleep(2)
 
-    #Kiểm tra thông báo đúng không và kiểm tra 
-    assert "Warning: First Name must be between 1 and 32 characters!" in error_message[0].text or \
-                   "Warning: Last Name must be between 1 and 32 characters!" in error_message[0].text, "Unexpected error message content."
+    # Kiểm tra nếu có thông báo lỗi ở trường FirstName
+    errorMessageFirstName = WebDriverWait(driver, 2).until(
+        EC.visibility_of_element_located((By.XPATH, "//input[@id='input-firstname']/following-sibling::div[@class='text-danger']"))
+    )
+    assert errorMessageFirstName.is_displayed(), "First name error message is not displayed."
+    assert "First Name must be between 1 and 32 characters!" in errorMessageFirstName.text, "Error message text for first name is incorrect."
+
+    # Kiểm tra nếu có thông báo lỗi ở trường LastName
+    errorMessageLastName = driver.find_element(By.XPATH, "//input[@id='input-lastname']/following-sibling::div[@class='text-danger']")
+    assert errorMessageLastName.is_displayed(), "Last name error message is not displayed."
+    assert "Last Name must be between 1 and 32 characters!" in errorMessageLastName.text, "Error message text for last name is incorrect."
+

@@ -34,7 +34,7 @@ def login(driver):
     
     
     
-def test_checkout_with_existAddress(driver): # Test đặt hàng với địa chỉ tồn tại trong tài khoản
+def test_check_out_cart_with_existAddress(driver): # Test đặt hàng với địa chỉ tồn tại trong tài khoản
     login(driver) # Gọi hàm đăng nhập
     driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=28&search=touch")   # Truy cập vào trang sản phẩm iPhone
     wait = WebDriverWait(driver, 2)
@@ -86,6 +86,9 @@ def test_checkout_with_existAddress(driver): # Test đặt hàng với địa ch
     continue_2.click()
     time.sleep(2)
 
+    driver.execute_script("arguments[0].scrollIntoView(false);", driver.find_element(By.CSS_SELECTOR, "#button-confirm"))
+    time.sleep(4)
+
     confirm_order = driver.find_element(By.CSS_SELECTOR, "#button-confirm")
     confirm_order.click()
     time.sleep(2)
@@ -98,7 +101,7 @@ def test_checkout_with_existAddress(driver): # Test đặt hàng với địa ch
 
 
 # Test đặt hàng với địa chỉ giao hàng mới
-def test_checkout_with_newAddress(driver):
+def test_check_out_cart_with_newAddress(driver):
     login(driver) # Gọi hàm đăng nhập
     driver.get("http://localhost/webopencart/index.php?route=product/product&language=en-gb&product_id=28&search=t")   # Truy cập vào trang sản phẩm iPhone
     wait = WebDriverWait(driver, 2)
